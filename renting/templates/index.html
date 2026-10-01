@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Inicio | RentMaquinaria
+RentaMaquinaria | Arriendo de maquinaria
 {% endblock %}
 
 {% block content %}
@@ -11,19 +11,23 @@ Inicio | RentMaquinaria
 ```
 <div class="hero-content">
 
-    <p class="hero-tag">SISTEMA DE ARRIENDO DE MAQUINARIA</p>
+    <p class="hero-tag">
+        ARRIENDO DE MAQUINARIA PARA CONSTRUCCIÓN
+    </p>
 
     <h1>
-        Potencia tu proyecto.
-        <span>Arrienda sin límites.</span>
+        El equipo que necesitas.
+        <span>El proyecto que imaginas.</span>
     </h1>
 
     <p class="hero-description">
-        Encuentra maquinaria de construcción, selecciona tus fechas
-        y gestiona tus arriendos desde una sola plataforma.
+        Encuentra maquinaria para tus proyectos de construcción,
+        selecciona tus fechas y administra tus arriendos desde
+        una sola plataforma.
     </p>
 
     <div class="hero-actions">
+
         <a href="/maquinaria/" class="btn btn-primary">
             Explorar maquinaria
         </a>
@@ -31,11 +35,10 @@ Inicio | RentMaquinaria
         <a href="/login/" class="btn btn-secondary">
             Iniciar sesión
         </a>
+
     </div>
 
 </div>
-
-<div class="hero-grid"></div>
 ```
 
 </section>
@@ -45,7 +48,7 @@ Inicio | RentMaquinaria
 ```
 <div class="stat">
     <strong>01</strong>
-    <span>Catálogo de maquinaria</span>
+    <span>Amplio catálogo</span>
 </div>
 
 <div class="stat">
@@ -55,12 +58,12 @@ Inicio | RentMaquinaria
 
 <div class="stat">
     <strong>03</strong>
-    <span>Gestión de contratos</span>
+    <span>Carro personalizado</span>
 </div>
 
 <div class="stat">
     <strong>04</strong>
-    <span>Control de arriendos</span>
+    <span>Contratos digitales</span>
 </div>
 ```
 
@@ -70,57 +73,182 @@ Inicio | RentMaquinaria
 
 ```
 <div class="section-heading">
-    <p class="section-tag">PLATAFORMA</p>
+
+    <p class="section-tag">
+        NUESTRA PLATAFORMA
+    </p>
 
     <h2>
         Todo lo necesario para
-        <span>tu próximo proyecto.</span>
+        <span>hacer avanzar tu proyecto.</span>
     </h2>
 
     <p>
-        RentMaquinaria centraliza la gestión de equipos,
-        carros de arriendo y contratos en una plataforma
-        diseñada para proyectos de construcción.
+        RentaMaquinaria permite encontrar equipos, organizar
+        arriendos y administrar contratos de manera sencilla,
+        centralizando todo el proceso en una sola plataforma.
     </p>
+
 </div>
 
 
 <div class="feature-grid">
 
     <article class="feature-card">
-        <div class="feature-number">01</div>
 
-        <h3>Maquinaria</h3>
+        <div class="feature-number">
+            01
+        </div>
+
+        <h3>
+            Encuentra maquinaria
+        </h3>
 
         <p>
-            Explora equipos disponibles y consulta sus
-            características, categorías y tarifas diarias.
+            Explora nuestro catálogo y consulta categorías,
+            tarifas diarias y disponibilidad de equipos.
         </p>
+
     </article>
 
 
     <article class="feature-card">
-        <div class="feature-number">02</div>
 
-        <h3>Arriendo flexible</h3>
+        <div class="feature-number">
+            02
+        </div>
+
+        <h3>
+            Define tu arriendo
+        </h3>
 
         <p>
-            Define las fechas y cantidades que necesitas
-            para cada equipo antes de confirmar tu arriendo.
+            Selecciona las fechas y cantidades necesarias
+            para cada equipo antes de confirmar tu solicitud.
         </p>
+
     </article>
 
 
     <article class="feature-card">
-        <div class="feature-number">03</div>
 
-        <h3>Carro de arriendo</h3>
+        <div class="feature-number">
+            03
+        </div>
+
+        <h3>
+            Gestiona tus contratos
+        </h3>
 
         <p>
-            Organiza diferentes equipos en un solo carro
-            antes de generar tu contrato.
+            Mantén tus arriendos organizados y consulta
+            los contratos asociados a tu cuenta.
         </p>
+
     </article>
+
+</div>
+```
+
+</section>
+
+<section class="categories-section">
+
+```
+<div class="section-heading">
+
+    <p class="section-tag">
+        CATEGORÍAS
+    </p>
+
+    <h2>
+        Equipos para cada
+        <span>etapa del proyecto.</span>
+    </h2>
+
+</div>
+
+
+<div class="category-grid">
+
+    <a href="/maquinaria/?categoria=EXCAVADORA"
+       class="category-card">
+
+        <span class="category-number">01</span>
+
+        <h3>
+            Excavadoras
+        </h3>
+
+        <p>
+            Movimiento de tierra y excavación.
+        </p>
+
+        <span class="category-link">
+            Ver equipos →
+        </span>
+
+    </a>
+
+
+    <a href="/maquinaria/?categoria=GENERADOR"
+       class="category-card">
+
+        <span class="category-number">02</span>
+
+        <h3>
+            Generadores
+        </h3>
+
+        <p>
+            Energía para obras y proyectos.
+        </p>
+
+        <span class="category-link">
+            Ver equipos →
+        </span>
+
+    </a>
+
+
+    <a href="/maquinaria/?categoria=ANDAMIO"
+       class="category-card">
+
+        <span class="category-number">03</span>
+
+        <h3>
+            Andamios
+        </h3>
+
+        <p>
+            Soluciones para trabajos en altura.
+        </p>
+
+        <span class="category-link">
+            Ver equipos →
+        </span>
+
+    </a>
+
+
+    <a href="/maquinaria/?categoria=HORMIGONERA"
+       class="category-card">
+
+        <span class="category-number">04</span>
+
+        <h3>
+            Hormigoneras
+        </h3>
+
+        <p>
+            Preparación y mezcla de hormigón.
+        </p>
+
+        <span class="category-link">
+            Ver equipos →
+        </span>
+
+    </a>
 
 </div>
 ```
@@ -131,12 +259,16 @@ Inicio | RentMaquinaria
 
 ```
 <div>
-    <p class="section-tag">COMIENZA AHORA</p>
+
+    <p class="section-tag">
+        COMIENZA AHORA
+    </p>
 
     <h2>
-        ¿Listo para comenzar
-        <span>tu proyecto?</span>
+        Tu próximo proyecto
+        <span>comienza aquí.</span>
     </h2>
+
 </div>
 
 <a href="/maquinaria/" class="btn btn-primary">

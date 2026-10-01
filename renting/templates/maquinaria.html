@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Maquinaria | RentaMaquinaria
+{% endblock %}
+
+{% block content %}
+
+<section class="catalog-header">
+
+<div class="catalog-header-content">
+
+    <p class="section-tag">
+        CATÁLOGO
+    </p>
+
+    <h1>
+        Maquinaria para
+        <span>tu proyecto.</span>
+    </h1>
+
+    <p>
+        Explora nuestros equipos disponibles y encuentra
+        la maquinaria adecuada para cada etapa de tu obra.
+    </p>
+
+</div>
+
+
+</section>
+
+<section class="catalog-section">
+
+<div class="catalog-toolbar">
+
+    <div>
+        <span class="toolbar-label">
+            EQUIPOS DISPONIBLES
+        </span>
+    </div>
+
+    <div class="catalog-filter">
+
+        <label for="category-filter">
+            Categoría
+        </label>
+
+        <select id="category-filter">
+
+            <option value="">
+                Todas
+            </option>
+
+            <option value="EXCAVADORA">
+                Excavadoras
+            </option>
+
+            <option value="GENERADOR">
+                Generadores
+            </option>
+
+            <option value="ANDAMIO">
+                Andamios
+            </option>
+
+            <option value="HORMIGONERA">
+                Hormigoneras
+            </option>
+
+        </select>
+
+    </div>
+
+</div>
+
+
+<div id="maquinaria-grid" class="machinery-grid">
+
+
+</div>
+
+</section>
+<script src="{% static 'js/maquinaria.js' %}"></script>
+{% endblock %}

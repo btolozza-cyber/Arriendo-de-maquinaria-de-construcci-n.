@@ -2,62 +2,132 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}RentMaquinaria{% endblock %}</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>
+        {% block title %}
+        RentaMaquinaria
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
 </head>
 
 <body>
 
     <header class="navbar">
+
         <div class="container navbar-content">
 
-            <a href="/" class="logo">
-                RentMaquinaria
+            <a
+                href="/"
+                class="logo"
+            >
+                <span>Renta</span>Maquinaria
             </a>
 
             <nav class="nav-links">
-                <a href="/">Inicio</a>
-                <a href="/maquinaria/">Maquinaria</a>
-                <a href="/carro/">Mi Carro</a>
-                <a href="/contratos/">Mis Contratos</a>
-                <a href="/login/">Iniciar sesión</a>
+
+                <a href="/">
+                    Inicio
+                </a>
+
+                <a href="/maquinaria/">
+                    Maquinaria
+                </a>
+
+                <a href="/carro/">
+                    Mi Carro
+                </a>
+
+                <a href="/contratos/">
+                    Mis Contratos
+                </a>
+
+                <a
+                    href="/login/"
+                    id="login-link"
+                    class="nav-login"
+                >
+                    Iniciar sesión
+                </a>
+
+                <button
+                    id="logout-button"
+                    class="nav-logout"
+                    style="display: none;"
+                >
+                    Cerrar sesión
+                </button>
+
             </nav>
 
         </div>
+
     </header>
 
 
     <main>
+
         {% block content %}
         {% endblock %}
+
     </main>
 
 
     <footer class="footer">
 
-        <div class="container">
+        <div class="container footer-content">
 
-            <h3>RentMaquinaria</h3>
+            <div class="footer-brand">
 
-            <p>
-                Plataforma de arriendo de maquinaria
-                para proyectos de construcción.
-            </p>
+                <h3>
+                    <span>Renta</span>Maquinaria
+                </h3>
+
+                <p>
+                    Plataforma de arriendo de maquinaria
+                    para proyectos de construcción.
+                </p>
+
+            </div>
+
 
             <div class="footer-info">
-                <p>Benjamín Toloza</p>
-                <p>Sección: IEC-N4-C2</p>
-                <p>Año: 2026</p>
+
+                <p>
+                    Benjamín Toloza
+                </p>
+
+                <p>
+                    Sección: IEC-N4-C2
+                </p>
+
+                <p>
+                    Año: 2026
+                </p>
+
             </div>
 
         </div>
 
     </footer>
 
+
+    <script src="{% static 'js/navbar.js' %}"></script>
+
 </body>
+
 </html>

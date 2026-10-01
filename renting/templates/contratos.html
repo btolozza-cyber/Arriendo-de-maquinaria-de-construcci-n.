@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Mis Contratos | RentaMaquinaria
+{% endblock %}
+
+{% block content %}
+
+<section class="contracts-header">
+
+    <div class="contracts-header-content">
+
+        <p class="section-tag">
+            MIS CONTRATOS
+        </p>
+
+        <h1>
+            Tus arriendos,
+            <span>siempre disponibles.</span>
+        </h1>
+
+        <p>
+            Consulta los contratos asociados a tu cuenta,
+            sus máquinas, fechas y estado.
+        </p>
+
+    </div>
+
+</section>
+
+<section class="contracts-section">
+
+    <div id="contracts-container"></div>
+
+</section>
+
+<script src="{% static 'js/contratos.js' %}"></script>
+
+{% endblock %}

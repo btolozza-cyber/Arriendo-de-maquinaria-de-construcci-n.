@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Mi Carro | RentaMaquinaria
+{% endblock %}
+
+{% block content %}
+
+<section class="cart-header">
+
+```
+<div class="cart-header-content">
+
+    <p class="section-tag">
+        MI CARRO
+    </p>
+
+    <h1>
+        Tu arriendo,
+        <span>en un solo lugar.</span>
+    </h1>
+
+    <p>
+        Revisa las máquinas seleccionadas, sus fechas
+        de arriendo y las cantidades antes de confirmar.
+    </p>
+
+</div>
+```
+
+</section>
+
+<section class="cart-section">
+
+```
+<div id="cart-container"></div>
+```
+
+</section>
+
+<script src="{% static 'js/carro.js' %}"></script>
+
+{% endblock %}

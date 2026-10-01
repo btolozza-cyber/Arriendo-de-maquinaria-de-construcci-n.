@@ -18,12 +18,17 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from renting.views import CustomTokenObtainPairView, home, login_page
 
 from rest_framework_simplejwt.views import TokenRefreshView
-from renting.views import CustomTokenObtainPairView
-
-from renting.views import home
-
+from renting.views import (
+    CustomTokenObtainPairView,
+    home,
+    login_page,
+    maquinaria_page,
+    carro_page,
+    contratos_page,
+)
 
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -39,6 +44,14 @@ urlpatterns = [
         'api/token/',
         CustomTokenObtainPairView.as_view(),
         name='token_obtain_pair'
+    ),
+
+    path('carro/', carro_page, name='carro'),
+
+    path(
+        'contratos/',
+        contratos_page,
+        name='contratos'
     ),
 
     path(
@@ -63,6 +76,10 @@ urlpatterns = [
         'api/',
         include('renting.urls')
     ),
+
+    path('login/', login_page, name='login'),
+
+    path('maquinaria/', maquinaria_page, name='maquinaria'),
     
 ]
 

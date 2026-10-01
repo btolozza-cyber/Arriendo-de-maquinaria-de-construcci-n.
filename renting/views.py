@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, serializers
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -12,7 +12,11 @@ from .models import (
     ItemContrato,
 )
 
-from .permissions import IsEjecutivo, IsEmpresa
+from .permissions import (
+    IsEjecutivo,
+    IsEmpresa,
+    IsEjecutivoOrEmpresaReadOnly,
+)
 
 from .serializers import (
     CustomTokenObtainPairSerializer,
@@ -24,6 +28,7 @@ from .serializers import (
 )
 
 from django.shortcuts import render
+from django.db import transaction
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     # Se ajusta la vista para utilizar el serializer personalizado (Con los roles)
@@ -35,64 +40,98 @@ class MaquinariaViewSet(viewsets.ModelViewSet):
 
     queryset = Maquinaria.objects.all()
     serializer_class = MaquinariaSerializer
-    permission_classes = [IsEjecutivo]
+    permission_classes = [IsEjecutivoOrEmpresaReadOnly]
     filterset_fields = ["categoria", "nombre"]
 
 class CarroArriendoViewSet(viewsets.ModelViewSet):
-    #
-    
     serializer_class = CarroArriendoSerializer
     permission_classes = [IsEmpresa]
 
     def get_queryset(self):
-        # Filtra el carro para que la empresa solamente
-        # pueda acceder a su propio carro.
+        # Cada empresa solo puede acceder a su propio carro.
         return CarroArriendo.objects.filter(
             usuario=self.request.user
         )
 
     def perform_create(self, serializer):
-        # El usuario se obtiene directamente del token JWT.
-        # No permitimos que el cliente elija otro usuario.
+        # El usuario autenticado queda asociado automáticamente al carro.
         serializer.save(usuario=self.request.user)
 
     @action(detail=True, methods=["post"])
     def checkout(self, request, pk=None):
-        # Obtiene únicamente el carro perteneciente
-        # al usuario autenticado.
+
         carro = self.get_object()
+        items = carro.items.select_related("maquinaria").all()
 
-        # Obtiene todos los items del carro.
-        items = carro.items.all()
-
-        # No se puede confirmar un carro vacío.
         if not items.exists():
             return Response(
                 {"error": "El carro está vacío."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Crea el contrato asociado al usuario autenticado.
-        contrato = ContratoArriendo.objects.create(
-            usuario=request.user
-        )
+        # Todas las operaciones posteriores forman una única transacción.
+        with transaction.atomic():
 
-        # Copia cada item del carro al contrato.
-        for item in items:
-            ItemContrato.objects.create(
-                contrato=contrato,
-                maquinaria=item.maquinaria,
-                fecha_inicio=item.fecha_inicio,
-                fecha_fin=item.fecha_fin,
-                cantidad=item.cantidad,
-                tarifa_diaria=item.maquinaria.tarifa_diaria,
-                garantia=item.maquinaria.garantia,
+            # Validamos disponibilidad de cada maquinaria.
+            for item in items:
+
+                maquinaria = item.maquinaria
+
+                # Buscamos contratos que tengan un período que se
+                # superponga con el período solicitado.
+                items_ocupados = ItemContrato.objects.filter(
+                    maquinaria=maquinaria,
+                    fecha_inicio__lt=item.fecha_fin,
+                    fecha_fin__gt=item.fecha_inicio,
+                    contrato__estado__in=[
+                        ContratoArriendo.Estado.PAGADO,
+                        ContratoArriendo.Estado.ENTREGADO,
+                    ]
+                )
+
+                cantidad_ocupada = sum(
+                    ocupado.cantidad
+                    for ocupado in items_ocupados
+                )
+
+                cantidad_disponible = (
+                    maquinaria.stock_total - cantidad_ocupada
+                )
+
+                if item.cantidad > cantidad_disponible:
+
+                    raise serializers.ValidationError(
+                        {
+                            "error": (
+                                f"No hay suficiente stock disponible "
+                                f"para {maquinaria.nombre} en las "
+                                f"fechas seleccionadas."
+                            )
+                        }
+                    )
+
+            # Si todas las máquinas tienen disponibilidad,
+            # recién aquí creamos el contrato.
+            contrato = ContratoArriendo.objects.create(
+                usuario=request.user
             )
 
-        # Vacía el carro después de confirmar el contrato.
-        items.delete()
+            # Copiamos los elementos del carro al contrato.
+            for item in items:
 
-        # Devuelve el contrato creado.
+                ItemContrato.objects.create(
+                    contrato=contrato,
+                    maquinaria=item.maquinaria,
+                    fecha_inicio=item.fecha_inicio,
+                    fecha_fin=item.fecha_fin,
+                    cantidad=item.cantidad,
+                    tarifa_diaria=item.maquinaria.tarifa_diaria,
+                    garantia=item.maquinaria.garantia,
+                )
+
+            # El carro queda vacío después de confirmar.
+            items.delete()
+
         serializer = ContratoArriendoSerializer(contrato)
 
         return Response(
@@ -101,11 +140,7 @@ class CarroArriendoViewSet(viewsets.ModelViewSet):
         )
 
 class ContratoArriendoViewSet(viewsets.ModelViewSet):
-    """
-    Permite gestionar los contratos de arriendo.
-
-    Cada empresa solamente puede acceder a sus propios contratos.
-    """
+    # Gestión de los contratos de arriendo 
 
     serializer_class = ContratoArriendoSerializer
     permission_classes = [IsEmpresa]
@@ -141,3 +176,15 @@ from django.shortcuts import render
 
 def home(request):
     return render(request, "index.html")
+
+def login_page(request):
+    return render(request, "login.html")
+
+def maquinaria_page(request):
+    return render(request, "maquinaria.html")
+
+def carro_page(request):
+    return render(request, "carro.html")
+
+def contratos_page(request):
+    return render(request, "contratos.html")
