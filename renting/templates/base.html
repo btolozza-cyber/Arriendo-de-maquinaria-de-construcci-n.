@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}RentMaquinaria{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="container navbar-content">
+
+            <a href="/" class="logo">
+                RentMaquinaria
+            </a>
+
+            <nav class="nav-links">
+                <a href="/">Inicio</a>
+                <a href="/maquinaria/">Maquinaria</a>
+                <a href="/carro/">Mi Carro</a>
+                <a href="/contratos/">Mis Contratos</a>
+                <a href="/login/">Iniciar sesión</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <h3>RentMaquinaria</h3>
+
+            <p>
+                Plataforma de arriendo de maquinaria
+                para proyectos de construcción.
+            </p>
+
+            <div class="footer-info">
+                <p>Benjamín Toloza</p>
+                <p>Sección: IEC-N4-C2</p>
+                <p>Año: 2026</p>
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>
