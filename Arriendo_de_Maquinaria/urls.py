@@ -83,7 +83,14 @@ urlpatterns = [
     
 ]
 
-urlpatterns += static(
-    settings.STATIC_URL,
-    document_root=settings.BASE_DIR / 'renting' / 'static'
-)
+from django.views.static import serve
+
+urlpatterns += [
+    path(
+        'static/<path:path>',
+        serve,
+        {
+            'document_root': settings.BASE_DIR / 'renting' / 'static'
+        }
+    )
+]

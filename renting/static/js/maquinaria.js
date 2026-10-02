@@ -1,11 +1,19 @@
-console.log("maquinaria.js cargado");
+const maquinariaGrid =
+    document.getElementById("maquinaria-grid");
 
-const maquinariaGrid = document.getElementById("maquinaria-grid");
-const categoryFilter = document.getElementById("category-filter");
+const categoryFilter =
+    document.getElementById("category-filter");
+
 
 async function cargarMaquinarias(categoria = "") {
 
-    console.log("Voy a cargar las maquinarias");
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+        window.location.href = "/login/";
+        return;
+    }
 
     try {
 
@@ -15,32 +23,33 @@ async function cargarMaquinarias(categoria = "") {
             url += `?categoria=${categoria}`;
         }
 
-        const token = localStorage.getItem("access_token");
-
-        console.log("Token encontrado:", !!token);
-
-        const response = await fetch(url, {
-            headers: {
-                "Authorization": `Bearer ${token}`
+        const response = await fetch(
+            url,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             }
-        });
+        );
 
-        console.log("Respuesta API:", response.status);
+        if (response.status === 401) {
+
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+
+            window.location.href = "/login/";
+            return;
+        }
 
         if (!response.ok) {
-
-            const errorData = await response.json();
-
-            console.error("Error de API:", errorData);
 
             throw new Error(
                 `Error de API: ${response.status}`
             );
         }
 
-        const data = await response.json();
-
-        console.log("Maquinarias recibidas:", data);
+        const data =
+            await response.json();
 
         renderizarMaquinarias(data);
 
@@ -52,9 +61,10 @@ async function cargarMaquinarias(categoria = "") {
             </p>
         `;
 
-        console.error("Error completo:", error);
+        console.error(error);
     }
 }
+
 
 function renderizarMaquinarias(maquinarias) {
 
@@ -64,10 +74,16 @@ function renderizarMaquinarias(maquinarias) {
 
         maquinariaGrid.innerHTML = `
             <div class="catalog-empty">
-                <h3>No hay maquinaria disponible</h3>
+
+                <h3>
+                    No hay maquinaria disponible
+                </h3>
+
                 <p>
-                    No encontramos equipos para la categoría seleccionada.
+                    No encontramos equipos para
+                    la categoría seleccionada.
                 </p>
+
             </div>
         `;
 
@@ -76,13 +92,19 @@ function renderizarMaquinarias(maquinarias) {
 
     maquinarias.forEach(maquinaria => {
 
-        const card = document.createElement("article");
+        const card =
+            document.createElement("article");
 
-        card.className = "machinery-card";
+        card.className =
+            "machinery-card";
 
         card.innerHTML = `
             <div class="machinery-image">
-                <span>${maquinaria.categoria}</span>
+
+                <span>
+                    ${maquinaria.categoria}
+                </span>
+
             </div>
 
             <div class="machinery-content">
@@ -103,28 +125,42 @@ function renderizarMaquinarias(maquinarias) {
                 <div class="machinery-details">
 
                     <div>
-                        <span>Tarifa diaria</span>
+
+                        <span>
+                            Tarifa diaria
+                        </span>
+
                         <strong>
-                            $${Number(maquinaria.tarifa_diaria).toLocaleString("es-CL")}
+                            $${Number(
+                                maquinaria.tarifa_diaria
+                            ).toLocaleString("es-CL")}
                         </strong>
+
                     </div>
 
                     <div>
-                        <span>Garantía</span>
+
+                        <span>
+                            Garantía
+                        </span>
+
                         <strong>
-                            $${Number(maquinaria.garantia).toLocaleString("es-CL")}
+                            $${Number(
+                                maquinaria.garantia
+                            ).toLocaleString("es-CL")}
                         </strong>
+
                     </div>
 
                 </div>
 
                 <button
-    class="btn btn-primary machinery-button"
-    data-id="${maquinaria.id}"
-    data-nombre="${maquinaria.nombre}"
->
-    Arrendar
-</button>
+                    class="btn btn-primary machinery-button"
+                    data-id="${maquinaria.id}"
+                    data-nombre="${maquinaria.nombre}"
+                >
+                    Arrendar
+                </button>
 
             </div>
         `;
@@ -133,34 +169,56 @@ function renderizarMaquinarias(maquinarias) {
     });
 }
 
-categoryFilter.addEventListener("change", () => {
 
-    cargarMaquinarias(categoryFilter.value);
+categoryFilter.addEventListener(
+    "change",
+    () => {
 
-});
+        cargarMaquinarias(
+            categoryFilter.value
+        );
 
-maquinariaGrid.addEventListener("click", (event) => {
-
-    const button = event.target.closest(".machinery-button");
-
-    if (!button) {
-        return;
     }
+);
 
-    const maquinariaId = button.dataset.id;
-    const maquinariaNombre = button.dataset.nombre;
 
-    mostrarFormularioArriendo(
-        maquinariaId,
-        maquinariaNombre
-    );
-});
+maquinariaGrid.addEventListener(
+    "click",
+    (event) => {
 
-function mostrarFormularioArriendo(maquinariaId, maquinariaNombre) {
+        const button =
+            event.target.closest(
+                ".machinery-button"
+            );
 
-    const formulario = document.createElement("div");
+        if (!button) {
+            return;
+        }
 
-    formulario.className = "rental-form";
+        const maquinariaId =
+            button.dataset.id;
+
+        const maquinariaNombre =
+            button.dataset.nombre;
+
+        mostrarFormularioArriendo(
+            maquinariaId,
+            maquinariaNombre
+        );
+    }
+);
+
+
+function mostrarFormularioArriendo(
+    maquinariaId,
+    maquinariaNombre
+) {
+
+    const formulario =
+        document.createElement("div");
+
+    formulario.className =
+        "rental-form";
 
     formulario.innerHTML = `
         <div class="rental-form-content">
@@ -233,48 +291,74 @@ function mostrarFormularioArriendo(maquinariaId, maquinariaNombre) {
 
             </div>
 
-            <p id="rental-error" class="login-error"></p>
+            <p
+                id="rental-error"
+                class="login-error"
+            ></p>
 
         </div>
     `;
 
     document.body.appendChild(formulario);
 
+
     document
         .getElementById("cancelar-arriendo")
-        .addEventListener("click", () => {
+        .addEventListener(
+            "click",
+            () => {
 
-            formulario.remove();
+                formulario.remove();
 
-        });
+            }
+        );
+
 
     document
         .getElementById("confirmar-arriendo")
-        .addEventListener("click", () => {
+        .addEventListener(
+            "click",
+            () => {
 
-            agregarAlCarro(
-                maquinariaId,
-                formulario
-            );
+                agregarAlCarro(
+                    maquinariaId,
+                    formulario
+                );
 
-        });
+            }
+        );
 }
 
-async function agregarAlCarro(maquinariaId, formulario) {
+
+async function agregarAlCarro(
+    maquinariaId,
+    formulario
+) {
 
     const fechaInicio =
-        document.getElementById("fecha-inicio").value;
+        document.getElementById(
+            "fecha-inicio"
+        ).value;
 
     const fechaFin =
-        document.getElementById("fecha-fin").value;
+        document.getElementById(
+            "fecha-fin"
+        ).value;
 
     const cantidad =
-        Number(document.getElementById("cantidad").value);
+        Number(
+            document.getElementById(
+                "cantidad"
+            ).value
+        );
 
     const errorElement =
-        document.getElementById("rental-error");
+        document.getElementById(
+            "rental-error"
+        );
 
     errorElement.textContent = "";
+
 
     if (!fechaInicio || !fechaFin) {
 
@@ -284,6 +368,16 @@ async function agregarAlCarro(maquinariaId, formulario) {
         return;
     }
 
+
+    if (fechaInicio >= fechaFin) {
+
+        errorElement.textContent =
+            "La fecha de inicio debe ser anterior a la fecha de término.";
+
+        return;
+    }
+
+
     if (cantidad <= 0) {
 
         errorElement.textContent =
@@ -292,8 +386,21 @@ async function agregarAlCarro(maquinariaId, formulario) {
         return;
     }
 
+
     const token =
-        localStorage.getItem("access_token");
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        window.location.href =
+            "/login/";
+
+        return;
+    }
+
 
     try {
 
@@ -303,8 +410,11 @@ async function agregarAlCarro(maquinariaId, formulario) {
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+                    "Content-Type":
+                        "application/json",
+
+                    "Authorization":
+                        `Bearer ${token}`
                 },
 
                 body: JSON.stringify({
@@ -316,7 +426,27 @@ async function agregarAlCarro(maquinariaId, formulario) {
             }
         );
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
+
+        if (response.status === 401) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "refresh_token"
+            );
+
+            window.location.href =
+                "/login/";
+
+            return;
+        }
+
 
         if (!response.ok) {
 
@@ -327,16 +457,22 @@ async function agregarAlCarro(maquinariaId, formulario) {
             );
         }
 
+
         formulario.remove();
 
-        alert("La maquinaria fue agregada al carro.");
+        alert(
+            "La maquinaria fue agregada al carro."
+        );
+
 
     } catch (error) {
 
-        errorElement.textContent = error.message;
+        errorElement.textContent =
+            error.message;
 
         console.error(error);
     }
 }
+
 
 cargarMaquinarias();

@@ -1146,3 +1146,41 @@ RESPONSIVE
         grid-template-columns: 1fr 1fr;
     }
 }
+
+.error-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.error-content {
+    max-width: 650px;
+}
+
+.error-content h1 {
+    color: var(--text);
+    font-size: 64px;
+    line-height: 1;
+    margin: 20px 0;
+}
+
+.error-content h1 span {
+    color: var(--green);
+}
+
+.error-content p:not(.section-tag) {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+
+    .error-content h1 {
+        font-size: 46px;
+    }
+
+}

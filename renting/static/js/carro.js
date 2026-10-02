@@ -1,5 +1,6 @@
 const cartContainer = document.getElementById("cart-container");
 
+
 async function cargarCarro() {
 
     const token = localStorage.getItem("access_token");
@@ -11,11 +12,14 @@ async function cargarCarro() {
 
     try {
 
-        const response = await fetch("/api/items-carro/", {
-            headers: {
-                "Authorization": `Bearer ${token}`
+        const response = await fetch(
+            "/api/items-carro/",
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             }
-        });
+        );
 
         if (!response.ok) {
             throw new Error("No fue posible cargar el carro.");
@@ -103,11 +107,11 @@ function renderizarCarro(items) {
                 <div>
 
                     <p class="machinery-category">
-                        MAQUINARIA #${item.maquinaria}
+                        MAQUINARIA
                     </p>
 
                     <h2>
-                        Maquinaria seleccionada
+                        ${item.maquinaria_nombre}
                     </h2>
 
                 </div>

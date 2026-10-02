@@ -139,15 +139,11 @@ class CarroArriendoViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED
         )
 
-class ContratoArriendoViewSet(viewsets.ModelViewSet):
-    # Gestión de los contratos de arriendo 
-
+class ContratoArriendoViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ContratoArriendoSerializer
     permission_classes = [IsEmpresa]
 
     def get_queryset(self):
-        # La empresa solamente puede consultar
-        # los contratos asociados a su propio usuario.
         return ContratoArriendo.objects.filter(
             usuario=self.request.user
         )

@@ -1,11 +1,113 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Página no encontrada</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Página no encontrada | RentaMaquinaria
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #111111;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .error-content {
+            max-width: 650px;
+        }
+
+        .tag {
+            color: #8cc63f;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            font-size: 56px;
+            line-height: 1;
+            margin: 20px 0;
+        }
+
+        h1 span {
+            color: #8cc63f;
+        }
+
+        p {
+            color: #aaaaaa;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        a {
+            display: inline-block;
+            background: #8cc63f;
+            color: #111111;
+            text-decoration: none;
+            padding: 14px 24px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            opacity: 0.85;
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <h1>404 - Página no no encontrada</h1>
-    <p></p>
+
+    <main class="error-page">
+
+        <div class="error-content">
+
+            <div class="tag">
+                ERROR 404
+            </div>
+
+            <h1>
+                Página
+                <span>no encontrada.</span>
+            </h1>
+
+            <p>
+                La página que buscas no existe o la dirección
+                ingresada no es válida.
+            </p>
+
+            <a href="/">
+                Volver al inicio
+            </a>
+
+        </div>
+
+    </main>
+
 </body>
+
 </html>

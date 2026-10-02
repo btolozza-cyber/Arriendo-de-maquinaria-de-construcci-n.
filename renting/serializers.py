@@ -51,11 +51,15 @@ class CarroArriendoSerializer(serializers.ModelSerializer):
         ]
 
 class ItemCarroSerializer(serializers.ModelSerializer):
-    # Convierte los items del carro entre objetos Django y JSON.
-    # También valida fechas, cantidad y calcula el costo del arriendo.
+    # Convierte los items del carro entre objetos Django y JSON, además de validar fechas, cantidad y calcula el costo del arriendo.
 
     dias_arriendo = serializers.SerializerMethodField()
     costo_arriendo = serializers.SerializerMethodField()
+
+    maquinaria_nombre = serializers.CharField(
+    source="maquinaria.nombre",
+    read_only=True
+)
 
     class Meta:
         model = ItemCarro
@@ -63,6 +67,7 @@ class ItemCarroSerializer(serializers.ModelSerializer):
             "id",
             "carro",
             "maquinaria",
+            "maquinaria_nombre",
             "fecha_inicio",
             "fecha_fin",
             "cantidad",
@@ -112,12 +117,16 @@ class ItemCarroSerializer(serializers.ModelSerializer):
         )
 
 class ItemContratoSerializer(serializers.ModelSerializer):
-
+    maquinaria_nombre = serializers.CharField(
+    source="maquinaria.nombre",
+    read_only=True
+)
     class Meta:
         model = ItemContrato
         fields = [
             "id",
             "maquinaria",
+            "maquinaria_nombre",
             "fecha_inicio",
             "fecha_fin",
             "cantidad",

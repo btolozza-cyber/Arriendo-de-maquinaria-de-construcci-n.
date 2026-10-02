@@ -108,13 +108,8 @@ function renderizarContratos(contratos) {
                 <div class="contract-item">
 
                     <div>
-                        <span>
-                            Maquinaria
-                        </span>
-
-                        <strong>
-                            #${item.maquinaria}
-                        </strong>
+                        <span>Maquinaria</span>
+                       <strong>${item.maquinaria_nombre}</strong>
                     </div>
 
                     <div>
